@@ -44,9 +44,33 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'tenant',
+    'tenant_schemas',
 ]
 
+SHARED_APPS = (
+    'tenant_schemas',
+    'tenant',
+    'django.contrib.contenttypes',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+)
+
+TENANT_APPS = (
+    'django.contrib.contenttypes',
+)
+
+TENANT_MODEL = 'tenant.Client'
+
 MIDDLEWARE = [
+    'tenant.middleware.RequestIDTenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,6 +114,10 @@ DATABASES = {
         'PORT': env.str("PORT"),
     }
 }
+
+DATABASE_ROUTERS = (
+    'tenant_schemas.routers.TenantSyncRouter',
+)
 
 
 # Password validation
